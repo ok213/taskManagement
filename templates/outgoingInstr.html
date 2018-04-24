@@ -1,0 +1,148 @@
+{{ define "outgoingInstr"}}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                ERROR: {{ .Error }}
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h3>
+                    <u>Исходящее поручение № {{ .Instruction.ID }}</u>
+                    <small class="text-muted">
+                        <em>&nbsp;&nbsp;&nbsp;от {{ .Instruction.Start }}г.</em>
+                    </small>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-success">
+                    <small>СТАТУС:
+                        <em>{{ .Instruction.Status }}</em>
+                    </small>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h5>Исполнитель:
+                    <em>{{ .Instruction.LastName }} {{ .Instruction.FirstName }} {{ .Instruction.MiddleName }} ({{ .Instruction.Department}})</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Срок исполнения:
+                    <em>{{ .Instruction.Period }}г.</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Содержание поручения:</h5>
+                <p class="card-text">{{ .Instruction.Content }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{{ if eq .Instruction.Status "ожидание принятия исполнения" }}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ range .Instruction.Answers }}
+                        {{ if .Calldown }}
+                            <p class="card-text text-right">
+                                <em>Возвращено на доработку {{ .DateCalldown }}:</em> {{ .Calldown }}
+                            </p>
+                            <hr>
+                        {{ end }}
+                        <p class="card-text">
+                            <em>
+                                <u>Ответ исполнителя от {{ .Date }}:</u>
+                            </em> {{ .Answer }}
+                        </p>
+                        <hr>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" id="rowbtn">
+        <div class="col-auto mr-auto">
+            <form action="/outgoing/accept" method="POST">
+                <input type="hidden" name="accept" value="accept">
+                <input type="hidden" name="id" value={{ .Instruction.ID }}>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Принять поручение</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-auto mr-auto">
+            <input class="btn btn-info" type="submit" value="Вернуть для доработки" onclick="rework();">
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-danger" href="/outgoing/cancel?ID={{ .Instruction.ID }}" role="button">Отменить поручение</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="rework" style="display:none">
+                <form action="/outgoing/rework" method="POST">
+                    <input type="hidden" name="id" value={{ .Instruction.ID }}>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="calldown">Замечание:</label>
+                                <textarea class="form-control" id="calldown" name="calldown" rows="5" minlength="1" maxlength="500" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto mr-auto">
+                            <button type="submit" class="btn btn-primary">Вернуть для доработки</button>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-danger" href="/outgoing/cancel?ID={{ .Instruction.ID }}" role="button">Отменить поручение</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{{ else }}
+    <div class="row">
+        <div class="col-auto mr-auto"></div>
+        <div class="col-auto">
+            <a class="btn btn-danger" href="/outgoing/cancel?ID={{ .Instruction.ID }}" role="button">Отменить поручение</a>
+        </div>
+    </div>
+{{ end }}
+{{ template "footer" . }}
+{{ end }}

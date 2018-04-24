@@ -1,0 +1,11 @@
+{{ define "reports" }}
+{{ template "header" . }}
+<!-- Example row of columns -->
+<div class="row justify-content-center">
+    <div class="col-9">
+        <br>
+        <h5>{{ .Text }}</h5>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

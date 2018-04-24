@@ -1,0 +1,40 @@
+{{ define "incoming" }}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                ERROR: {{ .Error }}
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover" style="background-color:#fff;">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>№</th>
+                    <th>Срок исполнения</th>
+                    <th>От кого</th>
+                    <th>Содержание</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Instructions }}
+                    <tr>
+                        <th scope="row">
+                            <a href="/incoming/instrID?ID={{ .ID }}">{{ .ID }}</a>
+                        </th>
+                        <td>{{ .Period }}</td>
+                        <td>{{ .LastName }} {{ .FirstName }} {{ .MiddleName }} ({{ .Department }})</td>
+                        <td>{{ .Content }}</td>
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

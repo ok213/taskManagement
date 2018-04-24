@@ -1,0 +1,58 @@
+{{ define "outgoingAdd" }}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                ERROR: {{ .Error }}
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-12">
+        <form action="/outgoing/add" method="POST">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="dateStart">Дата начала:</label>
+                        <input type="text" class="form-control" id="dateStart" name="dateStart" value={{ .DateStart }}>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="period">Срок исполнения:</label>
+                        <input type="text" class="form-control" id="period" name="period" value={{ .Period }} required>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="executor">Исполнитель:</label>
+                        <select id="executor" name="executor" class="form-control" required>
+                            <option selected>Выберите исполнителя:</option>
+                            {{ range .Executors }}
+                            <option value={{ .ID }}>{{ .FullName }}</option>
+                            {{ end }}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="content">Содержание поручения:</label>
+                        <textarea class="form-control" id="content" name="content" rows="10" minlength="1" maxlength="500" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Отправить к исполнению</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

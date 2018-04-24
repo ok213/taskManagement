@@ -1,0 +1,41 @@
+{{ define "adminDepartments" }}
+{{ template "adminlist" . }}
+    <div class="col-9">
+        <h3>Список подразделений</h3>
+        <br>
+        <div class="card" id="addDept" style="display:none">
+            <div class="card-body">
+                <h4 class="card-title"><em>Добавить подразделение:</em></h4>
+                <form action="/admin/adddept" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <input type="text" class="form-control" id="inputDepartment" name="department" placeholder="Подразделение" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+        <p>
+            <button type="button" class="btn btn-primary" onclick="addDept(this);">Добавить</button>
+        </p>
+        <table class="table table-sm table-striped table-hover" style="background-color:#fff;">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>№</th>
+                    <th>Подразделение</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Departments }}
+                    <tr>
+                        <th scope="row">{{ .ID }}</th>
+                        <td>{{ .Department }}</td>
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

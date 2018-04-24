@@ -1,0 +1,60 @@
+{{ define "user"}}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                ERROR: {{ .Error }}
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h3>
+                    <span class="text-secondary"><u>Сотрудник:</u></span> {{ .User.LastName }} {{ .User.FirstName }} {{ .User.MiddleName }}
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>
+                    <small><span class="text-secondary">Роль:</span> 
+                        <em>{{ .User.Role }}</em>
+                    </small>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5><span class="text-secondary">E-mail:</span>
+                    <em>{{ .User.Email}}</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5><span class="text-secondary">Подразделение:</span>
+                    <em>{{ .User.Department}}</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

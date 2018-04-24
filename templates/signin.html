@@ -1,0 +1,33 @@
+{{ define "signin" }}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                {{ .Error }} Ошибка авторизации!
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-center">Введите логин и пароль:</h2>
+    </div>
+</div>
+<div class="row">
+    <form class="form-signin" action="/signin" method="POST">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Запомнить меня
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ВОЙТИ</button>
+    </form>
+</div>
+{{ template "footer" . }}
+{{ end }}

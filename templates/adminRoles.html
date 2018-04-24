@@ -1,0 +1,41 @@
+{{ define "adminRoles" }}
+{{ template "adminlist" . }}
+    <div class="col-9">
+        <h3>Список ролей пользователей системы</h3>
+        <br>
+        <div class="card" id="addRole" style="display:none">
+            <div class="card-body">
+                <h4 class="card-title"><em>Добавить роль:</em></h4>
+                <form action="/admin/addrole" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <input type="text" class="form-control" id="inputRole" name="role" placeholder="Роль" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+        <p>
+            <button type="button" class="btn btn-primary" onclick="addRole(this);">Добавить</button>
+        </p>
+        <table class="table table-sm table-striped table-hover" style="background-color:#fff;">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>№</th>
+                    <th>Роль</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Roles }}
+                    <tr>
+                        <th scope="row">{{ .ID }}</th>
+                        <td>{{ .Role }}</td>
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

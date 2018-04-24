@@ -1,0 +1,11 @@
+{{ define "error" }}
+{{ template "header" . }}
+<!-- Example row of columns -->
+<div class="row justify-content-center">
+    <div class="col-9">
+        <br>
+        <h5><img src="/static/pics/error.gif"> {{ .Error }}</h5>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

@@ -1,0 +1,115 @@
+{{ define "incomingInstr" }}
+{{ template "header" . }}
+{{ if .Error }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger text-center" role="alert">
+                ERROR: {{ .Error }}
+            </div>
+        </div>
+    </div>
+{{ end }}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h3>
+                    <u>Входящее поручение № {{ .Instruction.ID }}</u>
+                    <small class="text-muted">
+                        <em>&nbsp;&nbsp;&nbsp;от {{ .Instruction.Start }}г.</em>
+                    </small>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-success">
+                    <small>СТАТУС:
+                        <em>{{ .Instruction.Status }}</em>
+                    </small>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h5>От кого:
+                    <em>{{ .Instruction.LastName }} {{ .Instruction.FirstName }} {{ .Instruction.MiddleName }} ({{ .Instruction.Department }})</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Срок исполнения:
+                    <em>{{ .Instruction.Period }}г.</em>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Содержание поручения:</h5>
+                <p class="card-text">{{ .Instruction.Content }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{{ $l := len .Instruction.Answers }} {{ if ne $l 0}}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ range .Instruction.Answers }}
+                        {{ if .Calldown }}
+                            <p class="card-text text-right">
+                                <em>Возвращено на доработку {{ .DateCalldown }}:</em> {{ .Calldown }}</p>
+                            <hr>
+                        {{ end }}
+                        <p class="card-text">
+                            <em>Ответ исполнителя от {{ .Date }}:</em> {{ .Answer }}
+                        </p>
+                        <hr>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{{ end }}
+
+<div class="row">
+    <div class="col-12">
+        <form action="/incoming/answer" method="POST">
+            <input type="hidden" name="id" value={{ .Instruction.ID }}>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="content">Ответ на поручение:</label>
+                        <textarea class="form-control" id="answer" name="answer" rows="10" minlength="1" maxlength="500" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Отправить ответ</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

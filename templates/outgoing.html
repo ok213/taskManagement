@@ -1,0 +1,50 @@
+{{ define "outgoing" }}
+{{ template "header" . }}
+    {{ if .Error }}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger text-center" role="alert">
+                    ERROR: {{ .Error }}
+                </div>
+            </div>
+        </div>
+    {{ end }}
+
+<div class="row">
+    <div class="col-2">
+        <p>
+            <a class="btn btn-primary" href="/outgoing/add" role="button">Создать поручение ...</a>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover" style="background-color:#fff;">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>№</th>
+                    <th>Срок исполнения</th>
+                    <th>Статус</th>
+                    <th>Кому поручено</th>
+                    <th>Содержание</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Instructions }}
+                    <tr>
+                        <th scope="row">
+                            <a href="/outgoing/instrID?ID={{ .ID }}">{{ .ID }}</a>
+                        </th>
+                        <td>{{ .Period }}</td>
+                        <td>{{ .Status }}</td>
+                        <td>{{ .LastName }} {{ .FirstName }} {{ .MiddleName }} ({{ .Department }})</td>
+                        <td>{{ .Content }}</td>
+                    </tr>
+                    {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ template "footer" . }}
+{{ end }}

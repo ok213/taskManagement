@@ -1,0 +1,12 @@
+{{ define "adminlist" }}
+{{ template "header" . }}
+<div class="row">
+    <div class="col-3">
+        <ul class="list-group">
+            <a href="/admin" class="list-group-item list-group-item-action">Сотрудники</a>
+            <a href="/admin/departments" class="list-group-item list-group-item-action">Подразделения</a>
+            <a href="/admin/roles" class="list-group-item list-group-item-action">Роли пользователей</a>
+            <a href="/admin/statuses" class="list-group-item list-group-item-action">Статусы поручений</a>
+        </ul>
+    </div>
+{{ end }}
